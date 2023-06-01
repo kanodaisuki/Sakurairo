@@ -13,7 +13,8 @@
     <div class="top-feature-v2">
         <div class="the-feature square from_left_and_right">
             <a href="<?php echo $exhibition['link1']; ?>" target="_blank">
-                <div class="img"><img src="<?php echo $exhibition['img1']; ?>"></div>
+                <div class="img">
+                    <img src="<?php echo $exhibition['img1']; ?>" alt="<?php _e('The background image of the display area on the left','sakurairo') ?>"></div>
                 <div class="info">
                     <h3><?php echo $exhibition['title1']; ?></h3>
                     <p><?php echo $exhibition['description1']; ?></p>
@@ -24,7 +25,7 @@
     <div class="top-feature-v2">
         <div class="the-feature square from_left_and_right">
             <a href="<?php echo $exhibition['link2']; ?>" target="_blank">
-                <div class="img"><img src="<?php echo $exhibition['img2']; ?>"></div>
+                <div class="img"><img src="<?php echo $exhibition['img2']; ?>" alt="<?php _e('The background image of the middle display area','sakurairo') ?>"></div>
                 <div class="info">
                     <h3><?php echo $exhibition['title2']; ?></h3>
                     <p><?php echo $exhibition['description2']; ?></p>
@@ -35,7 +36,7 @@
     <div class="top-feature-v2">
         <div class="the-feature square from_left_and_right">
             <a href="<?php echo $exhibition['link3']; ?>" target="_blank">
-                <div class="img"><img src="<?php echo $exhibition['img3']; ?>"></div>
+                <div class="img"><img src="<?php echo $exhibition['img3']; ?>" alt="<?php _e('The background image of the display area on the right','sakurairo') ?>"></div>
                 <div class="info">
                     <h3><?php echo $exhibition['title3']; ?></h3>
                     <p><?php echo $exhibition['description3']; ?></p>

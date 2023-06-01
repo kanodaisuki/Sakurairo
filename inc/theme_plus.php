@@ -355,7 +355,7 @@ function the_video_headPattern(bool $isHls = false)
  */            $t .= the_title('<h1 class="entry-title">', $btn_playControl./* $btn_volumeControl. */'</h1>', false);
             $t .= '<p class="entry-census"><span><a href="' 
             . esc_url(get_author_posts_url(get_the_author_meta('ID'), get_the_author_meta('user_nicename'))) . '">' 
-            . get_avatar(get_the_author_meta('ID'), 64) . '</a></span><span><a href="' 
+            . get_avatar(get_the_author_meta('ID'), 64, '', 'author avatar') . '</a></span><span><a href="' 
             . esc_url(get_author_posts_url(get_the_author_meta('ID'), get_the_author_meta('user_nicename'))) . '">' 
             . get_the_author() . '</a></span><span class="bull">·</span>' 
             . poi_time_since(get_post_time('U', false), false, true) . '<span class="bull">·</span>' /*时间前*/
@@ -416,7 +416,7 @@ function header_user_menu()
     $ava = iro_opt('personal_avatar') ? iro_opt('personal_avatar') : get_avatar_url($current_user->user_email);
   ?>
     <div class="header-user-avatar">
-      <img src="<?php echo get_avatar_url($current_user->ID, 64);/*$ava;*/ ?>" width="30" height="30">
+      <img src="<?php echo get_avatar_url($current_user->ID, 64);/*$ava;*/ ?>" alt="<?php _e('Avatar of the logged in user','sakurairo') ?>" width="30" height="30">
       <div class="header-user-menu">
         <div class="header-user-name">
           <?php _e("Signed in as", "sakurairo") ?>
@@ -442,7 +442,7 @@ function header_user_menu()
   ?>
     <div class="header-user-avatar">
       <a href="<?= $login_url ?>">
-        <img src="<?= $ava ?>" width="30" height="30">
+        <img src="<?= $ava ?>" alt="<?php _e('Default avatar when not logged in','sakurairo') ?>" width="30" height="30">
       </a>
       <div class="header-user-menu">
         <div class="header-user-name no-logged">
