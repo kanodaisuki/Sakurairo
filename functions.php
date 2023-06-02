@@ -381,12 +381,19 @@ if (!function_exists('akina_comment_format')) {
                 <div class="comment-arrow">
                     <div class="main shadow">
                         <div class="profile">
-                            <a href="<?php comment_author_url(); ?>" target="_blank" rel="nofollow"><?php echo str_replace('src=', 'src="' . iro_opt('load_in_svg') . '" onerror="imgError(this,1)" data-src=', get_avatar($comment->comment_author_email, '80', '', get_comment_author(), array('class' => array('lazyload')))); ?></a>
+                            <?php 
+                                $commenter_avatar = get_avatar($comment->comment_author_email, '80', '', get_comment_author(), array('class' => array('lazyload')));
+                                echo str_replace('src=', 'src="' . iro_opt('load_in_svg') . '" onerror="imgError(this,1)" data-src=', $commenter_avatar); 
+                            ?>
                         </div>
                         <div class="commentinfo">
                             <section class="commeta">
                                 <div class="left">
-                                    <h4 class="author"><a href="<?php comment_author_url(); ?>" target="_blank" rel="nofollow"><?php echo get_avatar($comment->comment_author_email, '24', '', get_comment_author()); ?><span class="bb-comment isauthor" title="<?php _e('Author', 'sakurairo'); ?>"><?php _e('Blogger', 'sakurairo'); /*博主*/ ?></span> <?php comment_author(); ?> <?php echo get_author_class($comment->comment_author_email, $comment->user_id); ?></a></h4>
+                                    <h4 class="author">
+                                        <span class="bb-comment isauthor" title="<?php _e('Author', 'sakurairo'); ?>"><?php _e('Blogger', 'sakurairo'); /*博主*/ ?></span>
+                                        <span><a href="<?php echo get_comment_author_url()? get_comment_author_url() : get_site_url(); //评论者个人URL，如果不存在则使用本站URL?>" target="_blank" rel="nofollow"><?php comment_author(); //评论者名称?></a></span>
+                                        <?php echo get_author_class($comment->comment_author_email, $comment->user_id); //评论者等级?>
+                                    </h4>
                                 </div>
                                 <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
                                 <div class="right">
@@ -441,7 +448,7 @@ function get_author_class($comment_author_email, $user_id)
     }
 
     // $Lv = $author_count < 5 ? 0 : ($author_count < 10 ? 1 : ($author_count < 20 ? 2 : ($author_count < 40 ? 3 : ($author_count < 80 ? 4 : ($author_count < 160 ? 5 : 6)))));
-    echo "<span class=\"showGrade{$Lv}\" title=\"Lv{$Lv}\"><img src=\"".iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/')."comment_level/level_{$Lv}.svg\" style=\"height: 1.5em; max-height: 1.5em; display: inline-block;\"></span>";
+    echo "<span class=\"showGrade{$Lv}\" title=\"Lv{$Lv}\"><img src=\"".iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/')."comment_level/level_{$Lv}.svg\" alt=\"Reviewer's rating information\" style=\"height: 1em; max-height: 1.2em; vertical-align: -0.3em; display: inline-block;\"></span>";
 }
 
 /**
@@ -1049,9 +1056,9 @@ function push_tieba_smilies()
     $smiliesgs = '.' . $type;
     foreach ($tiebaname as $tieba_Name) {
         // 选择面版
-        $return_smiles = $return_smiles . '<span title="' . $tieba_Name . '" onclick="grin(' . "'" . $tieba_Name . "'" . ',type = \'tieba\')"><img loading="lazy" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $tiebaimgdir . 'icon_' . $tieba_Name . $smiliesgs . '" /></span>';
+        $return_smiles = $return_smiles . '<span title="' . $tieba_Name . '" onclick="grin(' . "'" . $tieba_Name . "'" . ',type = \'tieba\')"><img loading="lazy" alt="'. $tieba_Name . '" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $tiebaimgdir . 'icon_' . $tieba_Name . $smiliesgs . '" /></span>';
         // 正文转换
-        $wpsmiliestrans['::' . $tieba_Name . '::'] = '<span title="' . $tieba_Name . '" onclick="grin(' . "'" . $tieba_Name . "'" . ',type = \'tieba\')"><img loading="lazy" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $tiebaimgdir . 'icon_' . $tieba_Name . $smiliesgs . '" /></span>';
+        $wpsmiliestrans['::' . $tieba_Name . '::'] = '<span title="' . $tieba_Name . '" onclick="grin(' . "'" . $tieba_Name . "'" . ',type = \'tieba\')"><img loading="lazy" alt="'. $tieba_Name . '" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $tiebaimgdir . 'icon_' . $tieba_Name . $smiliesgs . '" /></span>';
     }
     return $return_smiles;
 }
@@ -1069,49 +1076,49 @@ add_filter('comment_text', 'tieba_smile_filter'); //替换评论关键词
 function push_emoji_panel()
 {
     return '
-        <a class="emoji-item">(⌒▽⌒)</a>
-        <a class="emoji-item">（￣▽￣）</a>
-        <a class="emoji-item">(=・ω・=)</a>
-        <a class="emoji-item">(｀・ω・´)</a>
-        <a class="emoji-item">(〜￣△￣)〜</a>
-        <a class="emoji-item">(･∀･)</a>
-        <a class="emoji-item">(°∀°)ﾉ</a>
-        <a class="emoji-item">(￣3￣)</a>
-        <a class="emoji-item">╮(￣▽￣)╭</a>
-        <a class="emoji-item">(´_ゝ｀)</a>
-        <a class="emoji-item">←_←</a>
-        <a class="emoji-item">→_→</a>
-        <a class="emoji-item">(&lt;_&lt;)</a>
-        <a class="emoji-item">(&gt;_&gt;)</a>
-        <a class="emoji-item">(;¬_¬)</a>
-        <a class="emoji-item">("▔□▔)/</a>
-        <a class="emoji-item">(ﾟДﾟ≡ﾟдﾟ)!?</a>
-        <a class="emoji-item">Σ(ﾟдﾟ;)</a>
-        <a class="emoji-item">Σ(￣□￣||)</a>
-        <a class="emoji-item">(’；ω；‘)</a>
-        <a class="emoji-item">（/TДT)/</a>
-        <a class="emoji-item">(^・ω・^ )</a>
-        <a class="emoji-item">(｡･ω･｡)</a>
-        <a class="emoji-item">(●￣(ｴ)￣●)</a>
-        <a class="emoji-item">ε=ε=(ノ≧∇≦)ノ</a>
-        <a class="emoji-item">(’･_･‘)</a>
-        <a class="emoji-item">(-_-#)</a>
-        <a class="emoji-item">（￣へ￣）</a>
-        <a class="emoji-item">(￣ε(#￣)Σ</a>
-        <a class="emoji-item">ヽ(‘Д’)ﾉ</a>
-        <a class="emoji-item">（#-_-)┯━┯</a>
-        <a class="emoji-item">(╯°口°)╯(┴—┴</a>
-        <a class="emoji-item">←◡←</a>
-        <a class="emoji-item">( ♥д♥)</a>
-        <a class="emoji-item">_(:3」∠)_</a>
-        <a class="emoji-item">Σ&gt;―(〃°ω°〃)♡→</a>
-        <a class="emoji-item">⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄</a>
-        <a class="emoji-item">(╬ﾟдﾟ)▄︻┻┳═一</a>
-        <a class="emoji-item">･*･:≡(　ε:)</a>
-        <a class="emoji-item">(笑)</a>
-        <a class="emoji-item">(汗)</a>
-        <a class="emoji-item">(泣)</a>
-        <a class="emoji-item">(苦笑)</a>
+        <span class="emoji-item">(⌒▽⌒)</span>
+        <span class="emoji-item">（￣▽￣）</span>
+        <span class="emoji-item">(=・ω・=)</span>
+        <span class="emoji-item">(｀・ω・´)</span>
+        <span class="emoji-item">(〜￣△￣)〜</span>
+        <span class="emoji-item">(･∀･)</span>
+        <span class="emoji-item">(°∀°)ﾉ</span>
+        <span class="emoji-item">(￣3￣)</span>
+        <span class="emoji-item">╮(￣▽￣)╭</span>
+        <span class="emoji-item">(´_ゝ｀)</span>
+        <span class="emoji-item">←_←</span>
+        <span class="emoji-item">→_→</span>
+        <span class="emoji-item">(&lt;_&lt;)</span>
+        <span class="emoji-item">(&gt;_&gt;)</span>
+        <span class="emoji-item">(;¬_¬)</span>
+        <span class="emoji-item">("▔□▔)/</span>
+        <span class="emoji-item">(ﾟДﾟ≡ﾟдﾟ)!?</span>
+        <span class="emoji-item">Σ(ﾟдﾟ;)</span>
+        <span class="emoji-item">Σ(￣□￣||)</span>
+        <span class="emoji-item">(’；ω；‘)</span>
+        <span class="emoji-item">（/TДT)/</span>
+        <span class="emoji-item">(^・ω・^ )</span>
+        <span class="emoji-item">(｡･ω･｡)</span>
+        <span class="emoji-item">(●￣(ｴ)￣●)</span>
+        <span class="emoji-item">ε=ε=(ノ≧∇≦)ノ</span>
+        <span class="emoji-item">(’･_･‘)</span>
+        <span class="emoji-item">(-_-#)</span>
+        <span class="emoji-item">（￣へ￣）</span>
+        <span class="emoji-item">(￣ε(#￣)Σ</span>
+        <span class="emoji-item">ヽ(‘Д’)ﾉ</span>
+        <span class="emoji-item">（#-_-)┯━┯</span>
+        <span class="emoji-item">(╯°口°)╯(┴—┴</span>
+        <span class="emoji-item">←◡←</span>
+        <span class="emoji-item">( ♥д♥)</span>
+        <span class="emoji-item">_(:3」∠)_</span>
+        <span class="emoji-item">Σ&gt;―(〃°ω°〃)♡→</span>
+        <span class="emoji-item">⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄</span>
+        <span class="emoji-item">(╬ﾟдﾟ)▄︻┻┳═一</span>
+        <span class="emoji-item">･*･:≡(　ε:)</span>
+        <span class="emoji-item">(笑)</span>
+        <span class="emoji-item">(汗)</span>
+        <span class="emoji-item">(泣)</span>
+        <span class="emoji-item">(苦笑)</span>
     ';
 }
 
@@ -1127,9 +1134,9 @@ function push_bili_smilies()
     $smiliesgs = '.' . $type;
     foreach ($name as $smilies_Name) {
         // 选择面版
-        $return_smiles = $return_smiles . '<span title="' . $smilies_Name . '" onclick="grin(' . "'" . $smilies_Name . "'" . ',type = \'Math\')"><img loading="lazy" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $biliimgdir . 'emoji_' . $smilies_Name . $smiliesgs . '" /></span>';
+        $return_smiles = $return_smiles . '<span title="' . $smilies_Name . '" onclick="grin(' . "'" . $smilies_Name . "'" . ',type = \'Math\')"><img loading="lazy" alt="'. $smilies_Name . '" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $biliimgdir . 'emoji_' . $smilies_Name . $smiliesgs . '" /></span>';
         // 正文转换
-        $bilismiliestrans['{{' . $smilies_Name . '}}'] = '<span title="' . $smilies_Name . '" onclick="grin(' . "'" . $smilies_Name . "'" . ',type = \'Math\')"><img loading="lazy" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $biliimgdir . 'emoji_' . $smilies_Name . $smiliesgs . '" /></span>';
+        $bilismiliestrans['{{' . $smilies_Name . '}}'] = '<span title="' . $smilies_Name . '" onclick="grin(' . "'" . $smilies_Name . "'" . ',type = \'Math\')"><img loading="lazy" alt="'. $smilies_Name . '" src="'.iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/').'smilies/' . $biliimgdir . 'emoji_' . $smilies_Name . $smiliesgs . '" /></span>';
     }
     return $return_smiles;
 }
