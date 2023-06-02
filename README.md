@@ -1,3 +1,8 @@
+# ⌈ KanoChan の VERSE ⌋ 站点自用版本
+[KanoChan の VERSE](https://kanochan.net/)
+
+---
+
 **简体中文** | [繁體中文](README_tw.md) | [English](README_en.md) | [日本語](README_ja.md)
 
 [![image](https://s.nmxc.ltd/sakurairo_vision/@2.6/readme/banner-ver2.6.png)](https://github.com/mirai-mamori/Sakurairo)
