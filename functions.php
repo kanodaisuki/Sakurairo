@@ -1336,12 +1336,12 @@ function siren_private()
 function memory_archives_list() {
     // 尝试从缓存中获取结果
     $cache_key = 'memory_archives_list_' . get_locale();
-    //$output = get_transient($cache_key);
+    $output = get_transient($cache_key);
 
-    //if ($output !== false) {
-    //    echo $output;
-     //   return;
-    //}
+    if ($output !== false) {
+        echo $output;
+        return;
+    }
     $output = '<div id="archives"><p style="text-align:right;">[<span id="al_expand_collapse">' . __("All expand/collapse", "sakurairo") /*全部展开/收缩*/ . '</span>]<!-- (注: 点击月份可以展开)--></p>';
     $posts = get_posts(array(
         'posts_per_page' => -1,
