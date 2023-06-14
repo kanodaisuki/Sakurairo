@@ -491,18 +491,74 @@ function get_post_views($post_id) {
     if (empty($post_id) || !is_numeric($post_id)) {
         return 'Error: Invalid post ID.';
     }
-    // 检查 WP-Statistics 插件是否安装
-    if ((function_exists('wp_statistics_pages')) && (iro_opt('statistics_api') == 'wp_statistics')){
-        // 使用 WP-Statistics 插件获取浏览量
-        $views = wp_statistics_pages('total', 'uri', $post_id);
-        return empty($views) ? 0 : $views;
-    } else {
-        // 使用文章自定义字段获取浏览量
-        $views = get_post_meta($post_id, 'views', true);
-        // 格式化浏览量
-        $views = restyle_text($views);
+    if (iro_opt('statistics_api') == 'theme_build_in') {
+        $views = get_post_meta($post_id, 'views', true); // 使用文章自定义字段获取浏览量
+        $views = restyle_text($views); // 格式化浏览量
         return empty($views) ? 0 : $views;
     }
+    if (iro_opt('statistics_api') == 'wp_statistics') {
+        if (!function_exists('wp_statistics_pages')) {
+            return 'Error: wp_statistics plugin not installed'; // WP-Statistics 插件未安装
+        }
+        $views = wp_statistics_pages('total', 'uri', $post_id); // 使用 WP-Statistics 插件获取浏览量
+        return empty($views) ? 0 : $views;
+    }
+    if (iro_opt('statistics_api') == 'matomo') {
+        $views = get_matomo_post_views($post_id);
+        if (is_numeric($views)) {
+            $views = restyle_text($views);
+            return empty($views) ? 0 : $views;
+        }
+        return $views;
+    }
+}
+
+/**
+ * 通过Matomo API获取文章的访问量数据，
+ * 查看更多帮助：https://developer.matomo.org/api-reference/reporting-api
+ *
+ * @param int $post_id 文章的ID
+ * @return mixed 错误信息或数字字符串
+ */
+function get_matomo_post_views($post_id) {
+    $post_url = get_permalink($post_id); //获取文章URL
+    $post_encoded_url = urlencode($post_url); 
+    $matomo_post_date = get_the_date('Y-m-d', $post_id); //获取文章发布日期
+    $matomo_token = iro_opt('matomo_token');
+    $matomo_idSite = iro_opt('matomo_idSite');
+    $matomo_root = iro_opt('matomo_root');
+    $matomo_path = 'index.php?' . 
+                    'module=API' . 
+                    '&method=Actions.getPageUrl' . 
+                    '&idSite=' . $matomo_idSite . 
+                    '&period=range' . 
+                    '&date=' . $matomo_post_date . ',today' . //查询时间范围为文章发布之日至今
+                    '&format=JSON' . 
+                    '&token_auth=' . $matomo_token . 
+                    '&idSubtable=1' . 
+                    '&pageUrl=' . $post_encoded_url;
+    $matomo_query_url = $matomo_root . $matomo_path;
+    $curl_matomo = curl_init();
+    $timeout = 5; //curl超时时间
+    curl_setopt($curl_matomo, CURLOPT_URL, $matomo_query_url);
+    curl_setopt($curl_matomo, CURLOPT_RETURNTRANSFER, true); //curl_exec()以字符串形式返回
+    curl_setopt($curl_matomo, CURLOPT_CONNECTTIMEOUT, $timeout);
+    curl_setopt($curl_matomo, CURLOPT_SSL_VERIFYPEER, true); //验证ssl证书，防止token泄露
+    $matomo_contents = curl_exec($curl_matomo);
+    if ($matomo_contents === false) {
+        return 'Error: curl failed to execute';
+    }
+    $http_code = curl_getinfo($curl_matomo, CURLINFO_HTTP_CODE);
+    if ($http_code != '200') {
+        return 'Error: Matomo server error, response code:' . $http_code;
+    }
+    $matomo_result = json_decode($matomo_contents, true);
+    if (empty($matomo_result[0]['nb_visits'])) {    
+        $matomo_post_views = 0;  //nb_visits不存在，说明文章刚发布不久，matomo未生成统计数据
+    } else {
+        $matomo_post_views = $matomo_result[0]['nb_visits'];
+    }
+    return $matomo_post_views;
 }
 
 function is_webp(): bool
@@ -609,25 +665,49 @@ function visual_resource_updates($specified_version, $option_name, $new_value) {
 
 visual_resource_updates('2.5.6', 'vision_resource_basepath', '2.6/');
 
-function gravater_updates($specified_version, $option_name) {
+function gfonts_updates($specified_version, $option_name) {
     $theme = wp_get_theme();
     $current_version = $theme->get('Version');
 
     // Check if the function has already been triggered
-    $function_triggered = get_transient('gravater_updates_triggered18');
+    $function_triggered = get_transient('gfonts_updates_triggered18');
     if ($function_triggered) {
         return; // Function has already been triggered, do nothing
     }
 
     if (version_compare($current_version, $specified_version, '>')) {
         $option_value = iro_opt($option_name);
-        if (empty($option_value) || $option_value !== 'cdn2.tianli0.top/avatar') {
-            $option_value = 'cdn2.tianli0.top/avatar';
+        if (empty($option_value) || $option_value !== 'cdn2.tianli0.top/fonts') {
+            $option_value = 'cdn2.tianli0.top/fonts';
             iro_opt_update($option_name, $option_value);
         }
         
         // Set transient to indicate that the function has been triggered
-        set_transient('gravater_updates_triggered18', true);
+        set_transient('gfonts_updates_triggered18', true);
+    }
+}
+
+gfonts_updates('2.5.6', 'gfonts_api');
+
+function gravater_updates($specified_version, $option_name) {
+    $theme = wp_get_theme();
+    $current_version = $theme->get('Version');
+
+    // Check if the function has already been triggered
+    $function_triggered = get_transient('gravater_updates_triggered181');
+    if ($function_triggered) {
+        return; // Function has already been triggered, do nothing
+    }
+
+    if (version_compare($current_version, $specified_version, '>')) {
+        $option_value = iro_opt($option_name);
+        if (empty($option_value) || $option_value !== 'weavatar.com/avatar') {
+            $option_value = 'weavatar.com/avatar';
+            iro_opt_update($option_name, $option_value);
+        }
+        
+        // Set transient to indicate that the function has been triggered
+        set_transient('gravater_updates_triggered181', true);
     }
 }
 
@@ -2318,3 +2398,20 @@ function should_show_title():bool{
     || !get_post_thumbnail_id($id) 
     && $use_as_thumb != 'true' && !get_post_meta($id, 'video_cover', true);
 }
+
+/**
+ * 修复 WordPress 搜索结果为空，返回为 200 的问题。
+ * @author ivampiresp <im@ivampiresp.com>
+ */
+function search_404_fix_template_redirect()
+{
+    if (is_search()) {
+        global $wp_query;
+
+        if ($wp_query->found_posts == 0) {
+            status_header(404);
+        }
+    }
+}
+
+add_action('template_redirect', 'search_404_fix_template_redirect');

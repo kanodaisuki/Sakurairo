@@ -374,7 +374,7 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
         'id'     => 'gfonts_api',
         'type'   => 'text',
         'title'  => __('Google Fonts Api Link','sakurairo_csf'),
-        'default' => 'fonts.googleapis.com'
+        'default' => 'cdn2.tianli0.top/fonts'
       ),
 
       array(
@@ -3470,12 +3470,37 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
         'id' => 'statistics_api',
         'type' => 'radio',
         'title' => __('Statistics API','sakurairo_csf'),
-        'desc' => __('You can choose WP-Statistics plugin statistics or theme built-in statistics to display','sakurairo_csf'),
+        'desc' => __('Select source of article views data','sakurairo_csf'),
         'options' => array(
           'theme_build_in' => __('Theme Built in Statistics','sakurairo_csf'),
           'wp_statistics' => __('WP-Statistics Plugin Statistics','sakurairo_csf'),
+          'matomo'        => __('Matomo Analytics','sakurairo_cfs')
         ),
         'default' => 'theme_build_in'
+      ),
+
+      array(
+        'id' => 'matomo_idSite',
+        'type' => 'text',
+        'title' => __('Matomo Site ID','sakurairo_csf'),
+        'dependency' => array( 'statistics_api', '==', 'matomo', '', 'true' ),
+        'desc' => __('Fill in your site ID, which can be found in matomo statistics.','sakurairo_csf'),
+      ),
+
+      array(
+        'id' => 'matomo_root',
+        'type' => 'text',
+        'title' => __('Matomo Site URL','sakurairo_csf'),
+        'dependency' => array( 'statistics_api', '==', 'matomo', '', 'true' ),
+        'desc' => __('The URL of the matomo statistics website, for example: https://matomo.yourdomain.com/','sakurairo_csf'),
+      ),
+
+      array(
+        'id' => 'matomo_token',
+        'type' => 'text',
+        'title' => __('Matomo TOKEN','sakurairo_csf'),
+        'dependency' => array( 'statistics_api', '==', 'matomo', '', 'true' ),
+        'desc' => __('Enter the token of your matomo statistics website.','sakurairo_csf'),
       ),
 
       array(
@@ -3547,7 +3572,6 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
         'title' => __('Gravatar Service Proxy','sakurairo_csf'),
         'desc' => __('You can select multiple proxy as the Gravatar Service Proxy. By default, Tianli is used as the Gravatar Service Proxy.','sakurairo_csf'),
         'options'     => array(
-          'cdn2.tianli0.top/avatar'  => __('Tianli','sakurairo_csf'),
           'weavatar.com/avatar'  => __('Weavatar Service','sakurairo_csf'),
           'cravatar.cn/avatar'  => __('Cravatar Service','sakurairo_csf'),
           'sdn.geekzu.org/avatar'  => __('Geekzu','sakurairo_csf'),
@@ -3555,7 +3579,7 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
           'gravatar.com/avatar'  => __('Official','sakurairo_csf'),
           'custom_proxy_address_of_gravatar' => __('Custom Proxy Address','sakurairo_csf'),
         ),
-        'default'     => 'cdn2.tianli0.top/avatar'
+        'default'     => 'weavatar.com/avatar'
       ),
 
       array(
@@ -3956,7 +3980,7 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
 
       array(
         'type'    => 'content',
-        'content' => __('<img src="https://img.shields.io/github/v/release/mirai-mamori/Sakurairo.svg?style=flat-square"  alt="Theme latest version" style="border-radius: 3px;" />  <img src="https://img.shields.io/github/release-date/mirai-mamori/Sakurairo?style=flat-square"  alt="Theme latest version release date" style="border-radius: 3px;" />  <img src="https://data.jsdelivr.com/v1/package/gh/Fuukei/Public_Repository/badge"  alt="Theme CDN resource access" style="border-radius: 3px;" />','sakurairo_csf'),
+        'content' => __('<img src="https://img.shields.io/github/v/release/mirai-mamori/Sakurairo.svg?style=flat-square"  alt="Theme latest version" style="border-radius: 3px;" />  <img src="https://img.shields.io/github/release-date/mirai-mamori/Sakurairo?style=flat-square"  alt="Theme latest version release date" style="border-radius: 3px;" />  <img src="https://data.jsdelivr.com/v1/package/gh/mirai-mamori/Sakurairo/badge"  alt="Theme CDN resource access" style="border-radius: 3px;" />','sakurairo_csf'),
       ),
 
     )
