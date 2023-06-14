@@ -3470,12 +3470,37 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
         'id' => 'statistics_api',
         'type' => 'radio',
         'title' => __('Statistics API','sakurairo_csf'),
-        'desc' => __('You can choose WP-Statistics plugin statistics or theme built-in statistics to display','sakurairo_csf'),
+        'desc' => __('Select source of article views data','sakurairo_csf'),
         'options' => array(
           'theme_build_in' => __('Theme Built in Statistics','sakurairo_csf'),
           'wp_statistics' => __('WP-Statistics Plugin Statistics','sakurairo_csf'),
+          'matomo'        => __('Matomo Analytics','sakurairo_cfs')
         ),
         'default' => 'theme_build_in'
+      ),
+
+      array(
+        'id' => 'matomo_idSite',
+        'type' => 'text',
+        'title' => __('Matomo Site ID','sakurairo_csf'),
+        'dependency' => array( 'statistics_api', '==', 'matomo', '', 'true' ),
+        'desc' => __('Fill in your site ID, which can be found in matomo statistics.','sakurairo_csf'),
+      ),
+
+      array(
+        'id' => 'matomo_root',
+        'type' => 'text',
+        'title' => __('Matomo Site URL','sakurairo_csf'),
+        'dependency' => array( 'statistics_api', '==', 'matomo', '', 'true' ),
+        'desc' => __('The URL of the matomo statistics website, for example: https://matomo.yourdomain.com/','sakurairo_csf'),
+      ),
+
+      array(
+        'id' => 'matomo_token',
+        'type' => 'text',
+        'title' => __('Matomo TOKEN','sakurairo_csf'),
+        'dependency' => array( 'statistics_api', '==', 'matomo', '', 'true' ),
+        'desc' => __('Enter the token of your matomo statistics website.','sakurairo_csf'),
       ),
 
       array(
