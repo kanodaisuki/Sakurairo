@@ -28,21 +28,23 @@ get_header();
             <ul id="main" class="cbp_tmtimeline">
                 <?php while ($shuoshuo_query->have_posts()) : $shuoshuo_query->the_post(); ?>
                     <li id="shuoshuo_post">
-                        <a href="<?php the_permalink(); ?>">
                             <span class="shuoshuo_author_img">
                                 <img alt="shuoShuo author img" src="<?php echo get_avatar_profile_url(get_the_author_meta('ID')); ?>" class="avatar avatar-48" width="48" height="48">
                             </span>
                             <div class="cbp_tmlabel">
-                                <object class="entry-content">
-                                    <p></p>
+                                <div class="entry-content">
                                     <?php the_content( '', true ); ?>
-                                </object>
-                                <p class="shuoshuo_meta">
-                                    <i class="fa-regular fa-clock"></i> <?php the_time('Y/n/j G:i'); ?>
-                                    <span class="comments-number"><i class="fa-regular fa-comments"></i> <?php comments_number('0', '1', '%'); ?></span>
-                                </p>
+                                </div>
+                                <div class="shuoshuo_meta">
+                                    <span class="comments-time"><i class="fa-regular fa-clock"></i><?php _e('Posted on ','sakurairo'); the_time('Y-m-d H:i');//the_time('Y/n/j G:i'); ?></span>
+                                    <span class="comments-number" title="<?php _e('view comments', 'sakurairo'); ?>">
+                                        <a href="<?php the_permalink(); ?>">
+                                            <i class="fa-regular fa-comments"></i> <?php comments_number('0', '1', '%'); ?>
+                                        </a>
+                                    </span>
+                                </div>
                             </div>
-                        </a>
+                        
                     </li>
                 <?php endwhile; ?>
                 <?php wp_reset_postdata(); ?>
