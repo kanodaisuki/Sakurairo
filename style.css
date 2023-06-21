@@ -10669,6 +10669,10 @@ body.dark li .cbp_tmlabel {
   border: 1px solid #949494;
 }
 
+body.dark li .cbp_tmlabel:after {
+  display: none;
+}
+
 body.dark li .cbp_tmlabel .shuoshuo_meta span {
   background: #585858 !important;
 }
