@@ -1,4 +1,11 @@
-/*! iro a567380 2023/5/31*/
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*! iro 27d60ac 2023/6/22*/
 
 /*! loadCSS. [c]2020 Filament Group, Inc. MIT License */
 
