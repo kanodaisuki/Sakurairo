@@ -1155,51 +1155,10 @@ add_filter('comment_text', 'tieba_smile_filter'); //替换评论关键词
 
 function push_emoji_panel()
 {
-    return '
-        <span class="emoji-item">(⌒▽⌒)</span>
-        <span class="emoji-item">（￣▽￣）</span>
-        <span class="emoji-item">(=・ω・=)</span>
-        <span class="emoji-item">(｀・ω・´)</span>
-        <span class="emoji-item">(〜￣△￣)〜</span>
-        <span class="emoji-item">(･∀･)</span>
-        <span class="emoji-item">(°∀°)ﾉ</span>
-        <span class="emoji-item">(￣3￣)</span>
-        <span class="emoji-item">╮(￣▽￣)╭</span>
-        <span class="emoji-item">(´_ゝ｀)</span>
-        <span class="emoji-item">←_←</span>
-        <span class="emoji-item">→_→</span>
-        <span class="emoji-item">(&lt;_&lt;)</span>
-        <span class="emoji-item">(&gt;_&gt;)</span>
-        <span class="emoji-item">(;¬_¬)</span>
-        <span class="emoji-item">("▔□▔)/</span>
-        <span class="emoji-item">(ﾟДﾟ≡ﾟдﾟ)!?</span>
-        <span class="emoji-item">Σ(ﾟдﾟ;)</span>
-        <span class="emoji-item">Σ(￣□￣||)</span>
-        <span class="emoji-item">(’；ω；‘)</span>
-        <span class="emoji-item">（/TДT)/</span>
-        <span class="emoji-item">(^・ω・^ )</span>
-        <span class="emoji-item">(｡･ω･｡)</span>
-        <span class="emoji-item">(●￣(ｴ)￣●)</span>
-        <span class="emoji-item">ε=ε=(ノ≧∇≦)ノ</span>
-        <span class="emoji-item">(’･_･‘)</span>
-        <span class="emoji-item">(-_-#)</span>
-        <span class="emoji-item">（￣へ￣）</span>
-        <span class="emoji-item">(￣ε(#￣)Σ</span>
-        <span class="emoji-item">ヽ(‘Д’)ﾉ</span>
-        <span class="emoji-item">（#-_-)┯━┯</span>
-        <span class="emoji-item">(╯°口°)╯(┴—┴</span>
-        <span class="emoji-item">←◡←</span>
-        <span class="emoji-item">( ♥д♥)</span>
-        <span class="emoji-item">_(:3」∠)_</span>
-        <span class="emoji-item">Σ&gt;―(〃°ω°〃)♡→</span>
-        <span class="emoji-item">⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄</span>
-        <span class="emoji-item">(╬ﾟдﾟ)▄︻┻┳═一</span>
-        <span class="emoji-item">･*･:≡(　ε:)</span>
-        <span class="emoji-item">(笑)</span>
-        <span class="emoji-item">(汗)</span>
-        <span class="emoji-item">(泣)</span>
-        <span class="emoji-item">(苦笑)</span>
-    ';
+    $emojis = ['(⌒▽⌒)', '（￣▽￣）', '(=・ω・=)', '(｀・ω・´)', '(〜￣△￣)〜', '(･∀･)', '(°∀°)ﾉ', '(￣3￣)', '╮(￣▽￣)╭', '(´_ゝ｀)', '←_←', '→_→', '(&lt;_&lt;)', '(&gt;_&gt;)', '(;¬_¬)', '("▔□▔)/', '(ﾟДﾟ≡ﾟдﾟ)!?', 'Σ(ﾟдﾟ;)', 'Σ(￣□￣||)', '(’；ω；‘)', '（/TДT)/', '(^・ω・^ )', '(｡･ω･｡)', '(●￣(ｴ)￣●)', 'ε=ε=(ノ≧∇≦)ノ', '(’･_･‘)', '(-_-#)', '（￣へ￣）', '(￣ε(#￣)Σ', 'ヽ(‘Д’)ﾉ', '（#-_-)┯━┯', '(╯°口°)╯(┴—┴', '←◡←', '( ♥д♥)', '_(:3」∠)_', 'Σ&gt;―(〃°ω°〃)♡→', '⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(╬ﾟдﾟ)▄︻┻┳═一', '･*･:≡(　ε:)', '(笑)', '(汗)', '(泣)', '(苦笑)'];
+    return join('', array_map(function ($emoji) {
+        return '<a class="emoji-item">' . $emoji . '</a>';
+    }, $emojis));
 }
 
 // bilibili smiles
