@@ -525,6 +525,10 @@ function get_post_views($post_id) {
  * @return mixed 错误信息或数字字符串
  */
 function get_matomo_post_views($post_id) {
+    $matomo_post_views_transient = get_transient("matomo_post_views_$post_id");
+    if ($matomo_post_views_transient !== false) {
+        return $matomo_post_views_transient;  //返回缓存数据
+    }
     $post_url = get_permalink($post_id); //获取文章URL
     $post_encoded_url = urlencode($post_url); 
     $matomo_post_date = get_the_date('Y-m-d', $post_id); //获取文章发布日期
@@ -562,6 +566,7 @@ function get_matomo_post_views($post_id) {
     } else {
         $matomo_post_views = $matomo_result[0]['nb_visits'];
     }
+    set_transient("matomo_post_views_$post_id", $matomo_post_views, DAY_IN_SECONDS);  //缓存统计数据，24h更新一次
     return $matomo_post_views;
 }
 
