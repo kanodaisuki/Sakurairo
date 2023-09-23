@@ -1164,6 +1164,7 @@ input[type=week] {
 
 .float-content p {
   margin: 0;
+  word-break: break-all;
 }
 
 .post-list-show {
@@ -7965,11 +7966,13 @@ body.dark .post-list-thumb:hover {
 @media (max-width:768px) {
   .post-content {
     margin-top: 2%;
+    width: 100%;
   }
 
   .float-content p {
     height: auto;
     display: block;
+    word-break: break-all;
   }
 
   .post-list-thumb {
@@ -9768,6 +9771,7 @@ body.dark .post-list-thumb:hover {
 
   .post-content {
     display: inline-block;
+    width: 100%;
   }
 
   .header-info {
@@ -10213,6 +10217,8 @@ body.dark .post-list-thumb {
 
 body.dark .notice {
   filter: brightness(90%);
+  background: #333c;
+  border: 1px solid #666;
 }
 
 body.dark .notification {
