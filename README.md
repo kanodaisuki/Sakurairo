@@ -1,6 +1,14 @@
 # ⌈ KanoChan の VERSE ⌋ 站点自用版本
 [KanoChan の VERSE](https://kanochan.net/)
 
+# TODO
+
+- [ ] 1、首页封面切换过渡效果
+- [ ] 2、首页封面切换按钮动画
+- [ ] 3、说说模板夜间模式样式优化
+- [ ] 4、统计模板
+
+
 ---
 
 **简体中文** | [繁體中文](README_tw.md) | [English](README_en.md) | [日本語](README_ja.md)
