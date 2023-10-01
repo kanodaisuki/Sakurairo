@@ -1,5 +1,6 @@
 # ⌈ KanoChan の VERSE ⌋ 站点自用版本
-[KanoChan の VERSE](https://kanochan.net/)
+
+[![kanochan.net](https://image.kanochan.net/2023/10/02/2023100203103050eae6c15bae83a3b.png)](https://kanochan.net)
 
 # TODO
 
