@@ -6524,6 +6524,11 @@ li.feature-2 {
 .top-social li {
   float: left;
   margin-right: 10px;
+  transition: all .6s;
+}
+
+.top-social li:hover {
+  transform: scale(1.1);
 }
 
 .top-social_v2 li {
