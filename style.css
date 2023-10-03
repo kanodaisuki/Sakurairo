@@ -2550,6 +2550,7 @@ h1.main-title {
   background-attachment: scroll;
   background-size: cover;
   z-index: -1;
+  transition: background-image 1.6s ease-in-out 0.5s;
 }
 
 .focusinfo {
