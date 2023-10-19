@@ -3228,7 +3228,7 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
 
       array(
         'type' => 'subheading',
-        'content' => __('Comment Email Notification','sakurairo_csf'),
+        'content' => __('Comment Notification','sakurairo_csf'),
       ),
 
       array(
@@ -3263,6 +3263,27 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
         'label' => __('Use email notifications when admin comments receive a reply after turning it on','sakurairo_csf'),
         'default' => false
       ),
+      array(
+        'id' => 'dingtalk_notify',
+        'type' => 'switcher',
+        'title' => __('Dingtalk Notify','sakurairo_csf'),
+        'label' => __('After turning it on, you will be notified through DingTalk when new comments are generated. You need to configure a DingTalk robot first','sakurairo_csf'),
+        'default' => false
+      ),
+      array(
+        'id' => 'dingtalk_url',
+        'type' => 'text',
+        'title' => __('DingTalk Robot Address','sakurairo_csf'),
+        'dependency' => array( 'dingtalk_notify', '==', 'true', '', 'true' ),
+        'desc' => __('Fill in the DingTalk robot webhook address','sakurairo_csf'),
+      ),
+      array(
+        'id' => 'dingtalk_secret',
+        'type' => 'text',
+        'title' => __('DingTalk Robot Secret','sakurairo_csf'),
+        'dependency' => array( 'dingtalk_notify', '==', 'true', '', 'true' ),
+        'desc' => __('Fill in the DingTalk robot key. The key is on the robot security settings page and is the string starting with SEC displayed under the signature column','sakurairo_csf'),
+      )
 
     )
   ) );

@@ -1069,6 +1069,80 @@ function comment_mail_notify($comment_id)
 }
 add_action('comment_post', 'comment_mail_notify');
 
+/**
+ * 有新评论时使用钉钉机器人通知
+ * 
+ * ReadMore: https://open.dingtalk.com/document/robots/custom-robot-access
+ *
+ * @param  int $comment_id
+ * @return void
+ */
+function comment_dingtalk_notify($comment_id) 
+{
+    $comment = get_comment($comment_id);
+    if ($comment->user_id == get_post_field('post_author', $comment->comment_post_ID)) {
+        return;
+    }
+    $timestamp = time() * 1000;
+    $key = iro_opt('dingtalk_secret');
+    $sign = urlencode(base64_encode(hash_hmac('sha256', $timestamp."\n".$key, $key, true)));
+    $dingtalk_url = iro_opt('dingtalk_url');
+    $dingtalk_url .= '&'.http_build_query(['timestamp'=>$timestamp, 'sign'=>$sign]);
+    $text = "![](https://catimg-cdn.apii.cn/su/2023/10/07/f75fba5b211c18716052eb46b8025771.png)\n\n";
+    $text .= "## 文章《" . get_the_title($comment->comment_post_ID) . "》有新评论：\n\n";
+    $text .= "**评论者**：" . trim($comment->comment_author) . "\n\n";
+    $text .= "**邮箱**：[".$comment->comment_author_email."](mailto:".$comment->comment_author_email.")\n\n";
+    if ($comment->comment_author_url) {
+        $text .= "**URL**：[" . $comment->comment_author_url . "](" . $comment->comment_author_url . ")\n\n";
+    }
+    $text .= "**IP地址**：" . $comment->comment_author_IP . "\n\n";
+    $text .= "**时间**：" . date('Y年m月d日 H:i', strtotime($comment->comment_date)) . "\n\n";
+    $text .= "**评论内容**：" . wp_specialchars_decode($comment->comment_content);
+    $trash_it_url = admin_url( "comment.php?action=trash&c={$comment->comment_ID}#wpbody-content");
+    $spam_it_url = admin_url( "comment.php?action=spam&c={$comment->comment_ID}#wpbody-content");
+    $permalink = get_comment_link($comment);
+    $msg = array (
+        'msgtype' => 'actionCard',
+        'actionCard' => array (
+            'title' => '博客新的评论消息！',
+            'text' => $text,
+            'btnOrientation' => '0',
+            'btns' => array(
+                array(
+                    'title' => '查看评论',
+                    'actionURL' => "dingtalk://dingtalkclient/page/link?url=" . urlencode($permalink) . "&pc_slide=false"
+                ),
+                array(
+                    'title' => '移至回收站',
+                    'actionURL' => "dingtalk://dingtalkclient/page/link?url=" . urlencode($trash_it_url) . "&pc_slide=false"
+                ),
+                array(
+                    'title' => '标记为垃圾评论',
+                    'actionURL' => "dingtalk://dingtalkclient/page/link?url=" . urlencode($spam_it_url) . "&pc_slide=false"
+                ),
+    )));
+    $post_args = array(
+        'method' => 'POST',
+        'timeout' => 10,
+        'headers' => array(
+            'Content-Type' => 'application/json;charset=utf-8'
+        ),
+        'body' => json_encode($msg),
+    ); 
+    $response = wp_remote_post($dingtalk_url, $post_args);
+    if (is_wp_error($response) && WP_DEBUG) {
+        $error_message = sprintf('dingtalk_notif_error:' . $response->get_error_message());
+        error_log($error_message, E_USER_WARNING);
+    } else {
+        $response_body = json_decode(wp_remote_retrieve_body($response), true);
+        if ($response_body['errcode'] != '0' && WP_DEBUG) {
+            $error_message = sprintf('dingtalk_notif_error:' . wp_remote_retrieve_body($response));
+            error_log($error_message, E_USER_WARNING);
+        }
+    }
+}
+if (iro_opt('dingtalk_notify')) add_action('comment_post', 'comment_dingtalk_notify');
+
 /*
  * 链接新窗口打开
  */
