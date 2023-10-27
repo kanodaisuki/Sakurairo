@@ -181,31 +181,44 @@ if(!function_exists('siren_ajax_comment_callback')) {
       do_action('set_comment_cookies', $comment, $user);
       $GLOBALS['comment'] = $comment; //根据你的评论结构自行修改，如使用默认主题则无需修改
       ?>
-      <li <?php comment_class(); ?> id="comment-<?php echo esc_attr(comment_ID()); ?>">
-        <div class="contents">
-          <div class="comment-arrow">
-            <div class="main shadow">
-                <div class="profile">
-                  <a href="<?php comment_author_url(); ?>"><?php echo get_avatar( $comment->comment_author_email, '80', '', get_comment_author() ); ?></a>
-                </div>
-                <div class="commentinfo">
-                  <section class="commeta">
-                    <div class="left">
-                      <h4 class="author"><a href="<?php comment_author_url(); ?>"><?php echo get_avatar( $comment->comment_author_email, '80', '', get_comment_author() ); ?><?php comment_author(); ?> <span class="isauthor" title="<?php esc_attr_e('Author', 'sakurairo'); ?>"></span></a></h4>
-                    </div>
-                    <div class="right">
-                      <div class="info"><time datetime="<?php comment_date('Y-m-d'); ?>"><?php echo poi_time_since(strtotime($comment->comment_date), true );//comment_date(get_option('date_format')); ?></time></div>
-                    </div>
-                  </section>
-                </div>
-                <div class="body">
-                  <?php comment_text(); ?>
-                </div>
+      <div <?php comment_class(); ?> id="comment-<?php echo esc_attr(comment_ID()); ?>">
+            <div class="comment-user-img">
+                <?php 
+                    $commenter_avatar = get_avatar($comment->comment_author_email, '80', '', get_comment_author(), array('class' => array('lazyload')));
+                    echo str_replace('src=', 'src="' . iro_opt('load_in_svg') . '" onerror="imgError(this,1)" data-src=', $commenter_avatar); 
+                ?>
             </div>
-            <div class="arrow-left"></div>
-          </div>
+            <div class="comment-contents">
+                <div class="comment-user-info">
+                    <div class="is-blogger" title="<?php _e('Author', 'sakurairo'); ?>"><?php _e('Blogger', 'sakurairo'); /*博主*/ ?></div>
+                    <div class="comment-name"><a href="<?php echo get_comment_author_url()? get_comment_author_url() : get_site_url();?>" target="_blank" rel="nofollow"><?php comment_author(); ?></a></div>
+                    <div class="comment-user-class"><?php echo get_author_class($comment->comment_author_email, $comment->user_id); //评论者等级?></div>
+                    <div class="reply-link"><?php comment_reply_link(array('depth' => 1, 'max_depth' => get_option('thread_comments_depth'))); ?></div>
+                </div>
+                <div class="comment-mata">
+                    <div class="comment-time"><time datetime="<?php comment_date('Y-m-d'); ?>"><?php echo poi_time_since(strtotime($comment->comment_date), true); ?></time></div>
+                    <div class="comment-useragent"><?php siren_get_useragent($comment->comment_agent); ?><?php echo mobile_get_useragent_icon($comment->comment_agent); ?></div>
+                    <div class="comment-location"><?php if (iro_opt('comment_location')) {_e('Location', 'sakurairo'); ?>: <?php echo convertip(get_comment_author_ip());} ?></div>
+                    <div class="comment-edit">
+                        <?php if (current_user_can('manage_options') and (wp_is_mobile() == false)) {
+                            $comment_ID = $comment->comment_ID;
+                            $i_private = get_comment_meta($comment_ID, '_private', true);
+                            $flag = null;
+                            $flag .= ' <i class="fa-regular fa-snowflake"></i> <a href="javascript:;" data-actionp="set_private" data-idp="' . get_comment_id() . '" id="sp" class="sm">' . __("Private", "sakurairo") . ': <span class="has_set_private">';
+                            if (!empty($i_private)) {
+                                $flag .= __("Yes", "sakurairo") . ' <i class="fa-solid fa-lock"></i>';
+                            } else {
+                                $flag .= __("No", "sakurairo") . ' <i class="fa-solid fa-lock-open"></i>';
+                            }
+                            $flag .= '</span></a>';
+                            $flag .= edit_comment_link('<i class="fa-solid fa-pen-to-square"></i> ' . __("Edit", "mashiro"), ' <span style="color:rgba(0,0,0,.35)">', '</span>');
+                            echo $flag;
+                        } ?>
+                    </div>
+                </div>
+                <div class="comment-body"><?php comment_text(); ?></div>
+            </div>         
         </div>
-      </li>
       <?php die();
     }
 }
@@ -815,7 +828,7 @@ function siren_get_useragent(string $ua):string{
     $imgurl = iro_opt('vision_resource_basepath').'ua/';
     $browser = siren_get_browsers($ua);
     $os = siren_get_os($ua);
-    return '&nbsp;&nbsp;<span class="useragent-info">( <img src="'. $imgurl.$browser['icon'] .'.svg">&nbsp;'. $browser['title'] .'&nbsp;&nbsp;<img src="'. $imgurl.$os['icon'] .'.svg">&nbsp;'. $os['title'] .' )</span>';
+    return '<span class="useragent-info">( <img src="'. $imgurl.$browser['icon'] .'.svg">&nbsp;'. $browser['title'] .'&nbsp;&nbsp;<img src="'. $imgurl.$os['icon'] .'.svg">&nbsp;'. $os['title'] .' )</span>';
   }
   return '';
 }
@@ -826,7 +839,7 @@ function mobile_get_useragent_icon(string $ua):string{
     $imgurl = iro_opt('vision_resource_basepath').'ua/';
     $browser = siren_get_browsers($ua);
     $os = siren_get_os($ua);
-    return '<span class="useragent-info-m">( <img src="'. $imgurl.$browser['icon'] .'.svg">&nbsp;&nbsp;<img src="'. $imgurl.$os['icon'] .'.svg"> )</span>';
+    return '<img src="'. $imgurl.$browser['icon'] .'.svg">&nbsp;&nbsp;<img src="'. $imgurl.$os['icon'] .'.svg">';
   }
   return '';
 }

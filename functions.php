@@ -434,6 +434,54 @@ if (!function_exists('akina_comment_format')) {
     }
 }
 
+if (!function_exists('kanochan_comment_format')) {
+    function kanochan_comment_format($comment, $args, $depth)
+    {
+        $GLOBALS['comment'] = $comment;
+    ?>
+        
+        <div <?php comment_class(); ?> id="comment-<?php echo esc_attr(comment_ID()); ?>">
+            <div class="comment-user-img">
+                <?php 
+                    $commenter_avatar = get_avatar($comment->comment_author_email, '80', '', get_comment_author(), array('class' => array('lazyload')));
+                    echo str_replace('src=', 'src="' . iro_opt('load_in_svg') . '" onerror="imgError(this,1)" data-src=', $commenter_avatar); 
+                ?>
+            </div>
+            <div class="comment-contents">
+                <div class="comment-user-info">
+                    <div class="is-blogger" title="<?php _e('Author', 'sakurairo'); ?>"><?php _e('Blogger', 'sakurairo'); /*博主*/ ?></div>
+                    <div class="comment-name"><a href="<?php echo get_comment_author_url()? get_comment_author_url() : get_site_url();?>" target="_blank" rel="nofollow"><?php comment_author(); ?></a></div>
+                    <div class="comment-user-class"><?php echo get_author_class($comment->comment_author_email, $comment->user_id); //评论者等级?></div>
+                    <div class="reply-link"><?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))); ?></div>
+                </div>
+                <div class="comment-mata">
+                    <div class="comment-time"><time datetime="<?php comment_date('Y-m-d'); ?>"><?php echo poi_time_since(strtotime($comment->comment_date), true); ?></time></div>
+                    <div class="comment-useragent"><?php siren_get_useragent($comment->comment_agent); ?><?php echo mobile_get_useragent_icon($comment->comment_agent); ?></div>
+                    <div class="comment-location"><?php if (iro_opt('comment_location')) {_e('Location', 'sakurairo'); ?>: <?php echo convertip(get_comment_author_ip());} ?></div>
+                    <div class="comment-edit">
+                        <?php if (current_user_can('manage_options') and (wp_is_mobile() == false)) {
+                            $comment_ID = $comment->comment_ID;
+                            $i_private = get_comment_meta($comment_ID, '_private', true);
+                            $flag = null;
+                            $flag .= ' <i class="fa-regular fa-snowflake"></i> <a href="javascript:;" data-actionp="set_private" data-idp="' . get_comment_id() . '" id="sp" class="sm">' . __("Private", "sakurairo") . ': <span class="has_set_private">';
+                            if (!empty($i_private)) {
+                                $flag .= __("Yes", "sakurairo") . ' <i class="fa-solid fa-lock"></i>';
+                            } else {
+                                $flag .= __("No", "sakurairo") . ' <i class="fa-solid fa-lock-open"></i>';
+                            }
+                            $flag .= '</span></a>';
+                            $flag .= edit_comment_link('<i class="fa-solid fa-pen-to-square"></i> ' . __("Edit", "mashiro"), '');
+                            echo $flag;
+                        } ?>
+                    </div>
+                </div>
+                <div class="comment-body"><?php comment_text(); ?></div>
+            </div>         
+        </div>
+    <?php
+    }
+}
+
 /**
  * 获取访客VIP样式
  */
@@ -452,7 +500,7 @@ function get_author_class($comment_author_email, $user_id)
     }
 
     // $Lv = $author_count < 5 ? 0 : ($author_count < 10 ? 1 : ($author_count < 20 ? 2 : ($author_count < 40 ? 3 : ($author_count < 80 ? 4 : ($author_count < 160 ? 5 : 6)))));
-    echo "<span class=\"showGrade{$Lv}\" title=\"Lv{$Lv}\"><img src=\"".iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/')."comment_level/level_{$Lv}.svg\" alt=\"Reviewer's rating information\" style=\"height: 1em; max-height: 1.2em; vertical-align: -0.3em; display: inline-block;\"></span>";
+    echo "<div class=\"showGrade{$Lv}\" title=\"Lv{$Lv}\"><img src=\"".iro_opt('vision_resource_basepath','https://s.nmxc.ltd/sakurairo_vision/@2.6/')."comment_level/level_{$Lv}.svg\" alt=\"Reviewer's rating information\"></div>";
 }
 
 /**
