@@ -571,7 +571,6 @@
 .entry-content img {
   max-width: 100%;
   box-sizing: content-box;
-  background-color: #fff;
 }
 
 .entry-content img[align=right] {
@@ -637,7 +636,7 @@
     text-shadow: none;
     color: #000;
     padding-top: 30px;
-    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, .4)
+    box-shadow: 4px 5px 15px 0px rgba(0, 0, 0, .4);
 }
 
 .entry-content pre.highlight-wrap:before {

@@ -181,6 +181,7 @@ if(!function_exists('siren_ajax_comment_callback')) {
       do_action('set_comment_cookies', $comment, $user);
       $GLOBALS['comment'] = $comment; //根据你的评论结构自行修改，如使用默认主题则无需修改
       ?>
+      <hr class="comment-hr">
       <div <?php comment_class(); ?> id="comment-<?php echo esc_attr(comment_ID()); ?>">
             <div class="comment-user-img">
                 <?php 
@@ -216,9 +217,11 @@ if(!function_exists('siren_ajax_comment_callback')) {
                         } ?>
                     </div>
                 </div>
-                <div class="comment-body"><?php comment_text(); ?></div>
-            </div>         
-        </div>
+                <div class="comment-body">
+                    <div class="entry-content"><?php comment_text(); ?></div>                  
+                </div>
+            </div>
+        </div>  
       <?php die();
     }
 }

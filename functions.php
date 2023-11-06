@@ -439,7 +439,7 @@ if (!function_exists('kanochan_comment_format')) {
     {
         $GLOBALS['comment'] = $comment;
     ?>
-        
+        <hr class="comment-hr"> 
         <div <?php comment_class(); ?> id="comment-<?php echo esc_attr(comment_ID()); ?>">
             <div class="comment-user-img">
                 <?php 
@@ -475,9 +475,11 @@ if (!function_exists('kanochan_comment_format')) {
                         } ?>
                     </div>
                 </div>
-                <div class="comment-body"><?php comment_text(); ?></div>
-            </div>         
-        </div>
+                <div class="comment-body">
+                    <div class="entry-content"><?php comment_text(); ?></div>                  
+                </div>
+            </div>       
+        </div>   
     <?php
     }
 }
