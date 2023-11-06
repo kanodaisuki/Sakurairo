@@ -2064,8 +2064,8 @@ nav#comments-navi {
     background: #505050b3;
     margin-left: 10px;
     border-radius: 5px;
-    padding: 10px 10px;
-    font-size: 12px;
+    padding: 5px 5px;
+    font-size: 100%;
     color: #ffffff;
     font-weight: var(--global-font-weight);
     -webkit-transition: all .8s;
@@ -2103,9 +2103,9 @@ nav#comments-navi {
     height: 180px;
     margin-bottom: 10px;
     background-color: transparent;
-    background-size: contain;
+    background-size: auto 8rem;
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: right bottom;
     resize: vertical;
     font-weight: var(--global-font-weight);
 }
