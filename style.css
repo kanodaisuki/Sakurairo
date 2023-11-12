@@ -5951,6 +5951,7 @@ ul .children {
 }
 
 .reply-link a {
+    visibility: hidden;
     background-color: var(--comment_area_matching);
     border-radius: 8%;
     box-shadow: 0px 0px 10px 2px #50505050;
@@ -5964,6 +5965,7 @@ ul .children {
 }
 
 .comment-contents:hover .comment-reply-link, .comment-contents:hover .comment-edit {
+    visibility: visible;
     opacity: 1;
 }
 
