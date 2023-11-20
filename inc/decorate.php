@@ -450,6 +450,10 @@ font-size: <?=iro_opt('signature_font_size'); ?>px;
 font-family:<?=iro_opt('shuoshuo_font'); ?> !important;
 }
 
+.cbp_tmtimeline > li#shuoshuo_post {
+font-family:<?=iro_opt('shuoshuo_font'); ?>
+}
+
 .post-list-thumb .post-title h3{
 font-size: <?=iro_opt('post_title_font_size'); ?>px !important;
 }

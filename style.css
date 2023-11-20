@@ -4762,17 +4762,6 @@ input#wp-comment-cookies-consent {
     quotes: "" "";
 }
 
-.cbp_tmtimeline:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: RGBA(0, 0, 0, 0.02);
-    left: 80px;
-    margin-left: 10px;
-}
-
 .cbp_tmtimeline>li .cbp_tmtime {
     /* width:29%;*/
     /* padding-right:110px;*/
@@ -4827,6 +4816,298 @@ input#wp-comment-cookies-consent {
     height: 50px;
     box-shadow: none;
 }
+
+/*说说模板样式-起*/
+
+#shuoshuo_post {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    height: 400px;
+    margin-bottom: 32px;
+    padding: 20px;
+    border: 3px solid var(--shuoshuo_background_color1);
+    box-shadow: -4px 4px 0px 0px var(--shuoshuo_background_color2);
+    background: linear-gradient(to bottom right, var(--shuoshuo_background_color1), var(--shuoshuo_background_color2));
+    transition: all 0.5s ease-in-out;
+} 
+
+#shuoshuo_post:hover {
+    box-shadow: 0 0 20px 2px var(--shuoshuo_background_color2);
+    transition: all 0.5s ease-in-out;
+}
+
+#shuoshuo_post:nth-child(even) {
+    border: 3px solid var(--shuoshuo_background_color2);
+    box-shadow: -4px 4px 0px 0px var(--shuoshuo_background_color1);
+    background: linear-gradient(to bottom right, var(--shuoshuo_background_color2), var(--shuoshuo_background_color1));
+    transition: all 0.5s ease-in-out;
+} 
+
+#shuoshuo_post:nth-child(even):hover {
+    box-shadow: 0 0 20px 2px var(--shuoshuo_background_color1);
+    transition: all 0.5s ease-in-out;
+}
+
+.shuoshuo-content {
+    display: flex;
+    height: 355px;
+}
+
+#shuoshuo_post:nth-child(even) .shuoshuo-content {
+    flex-direction: row-reverse;
+}
+
+.shuoshuo-text {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 355px;
+    margin-right: 15px;
+    padding: 10px;
+    border: 2px solid var(--shuoshuo_background_color1);
+}
+
+#shuoshuo_post:nth-child(even) .shuoshuo-text {
+    margin: 0 0 0 15px;
+    border: 2px solid var(--shuoshuo_background_color2);
+}
+
+.shuoshuo-title {
+    flex-shrink: 0;
+    font-size: 1rem;
+    line-height: 2rem;
+    text-align: center;
+    margin-bottom: 12px;
+    overflow: auto;
+}
+
+.shuoshuo-title h2 {
+    margin: 0;
+}
+
+.shuoshuo-title h2::before {
+    display: none;
+}
+
+.shuoshuo-body::-webkit-scrollbar {
+    width: 1px;
+}
+
+.shuoshuo-body::-webkit-scrollbar-thumb, #shuoshuo_post:nth-child(even) .shuoshuo-body::-webkit-scrollbar-track {
+    background-color: var(--shuoshuo_background_color1);
+}
+
+.shuoshuo-body::-webkit-scrollbar-track, #shuoshuo_post:nth-child(even) .shuoshuo-body::-webkit-scrollbar-thumb {
+    background-color: var(--shuoshuo_background_color2);
+}
+
+.shuoshuo-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: overlay;
+}
+
+.shuoshuo-body p {
+    margin: 0 0 0.5rem;
+    word-break: break-all;
+}
+
+.shuoshuo-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    height: 355px;
+    padding: 0.6%;
+    border: 2px solid var(--shuoshuo_background_color1);
+    overflow: hidden;
+}
+
+#shuoshuo_post:nth-child(even) .shuoshuo-images {
+    border: 2px solid var(--shuoshuo_background_color2);
+}
+
+.shuoshuo-images span {
+    display: block;
+    overflow: hidden;
+}
+
+.shuoshuo-images img {
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+.shuoshuo-images img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.shuoshuo-images .image-full {
+    width: 100%;
+    height: 100%;
+}
+
+.shuoshuo-images .image-four {
+    width: 49.2%;
+    height: 49.2%;
+}
+
+.shuoshuo-images .image-four:nth-child(1) {
+    margin: 0 0.3% 0.3% 0;
+}
+
+.shuoshuo-images .image-four:nth-child(2) {
+    margin: 0 0 0.3% 0.3%;
+}
+
+.shuoshuo-images .image-four:nth-child(3) {
+    margin: 0.3% 0.3% 0 0;
+}
+
+.shuoshuo-images .image-four:nth-child(4) {
+    margin: 0.3% 0 0 0.3%;
+}
+
+.shuoshuo-images .image-three {
+    width: 49.2%;
+    height: 55%;
+}
+
+.shuoshuo-images .image-three:last-child {
+    width: 100%;
+    height: 44%;
+}
+
+.shuoshuo-images .image-three:nth-child(1) {
+    margin: 0 0.3% 0.3% 0;
+}
+
+.shuoshuo-images .image-three:nth-child(2) {
+    margin: 0 0 0.3% 0.3%;
+}
+
+.shuoshuo-images .image-three:nth-child(3) {
+    margin: 0.3% 0 0 0;
+}
+
+.shuoshuo-images .image-two {
+    width: 49.2%;
+    height: 100%
+}
+
+.shuoshuo-images .image-two:nth-child(1) {
+    margin-right: 0.3%;
+}
+
+.shuoshuo-images .image-two:nth-child(2) {
+    margin-left: 0.3%;
+}
+
+.shuoshuo-meta {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    font-size: 12px;
+    padding: 0 0 0 30px;
+}
+
+#shuoshuo_post:nth-child(even) .shuoshuo-meta {
+    justify-content: left;
+    padding: 0px 30px 0 0;
+}
+
+.shuoshuo-author-image {
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+}
+
+.shuoshuo-author-name, .shuoshuo-comment-count, .shuoshuo-date {
+    margin-right: 10px;
+}
+
+.shuoshuo-more a {
+    color: currentColor;
+}
+
+.shuoshuo-author-image img {
+    height: 100%;
+    width: auto;
+    border-radius: 50%;
+}
+
+.shuoshuo-feather {
+    display: flex;
+    position: relative;
+    left: -18px;
+    top: -25px;
+    font-size: 24px;
+}
+
+.shuoshuo-feather i {
+    color: var(--shuoshuo_background_color1)
+}
+
+#shuoshuo_post:nth-child(even) .shuoshuo-feather {
+    flex-direction: row-reverse;
+    left: auto;
+    right: -18px;
+}
+
+#shuoshuo_post:nth-child(even) .shuoshuo-feather i {
+    transform: scaleY(1);
+    color: var(--shuoshuo_background_color2)
+}
+
+@media (max-width: 700px) {
+    #shuoshuo_post {
+        padding-bottom: 0;
+        height: auto;
+    }
+
+    .shuoshuo-content,#shuoshuo_post:nth-child(even) .shuoshuo-content {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .shuoshuo-text, #shuoshuo_post:nth-child(even) .shuoshuo-text {
+        width: 100%;
+        height: auto;
+        margin: 0 0 15px 0;
+        border: none;
+    }
+
+    .shuoshuo-images, #shuoshuo_post:nth-child(even) .shuoshuo-images {
+        aspect-ratio: 4/3;
+        width: 100%;
+        height: auto;
+    }
+
+    .shuoshuo-meta {
+        justify-content: left;
+        padding: 0 30px 0 0;
+        flex-wrap: wrap;
+    }
+
+    .shuoshuo-feather {
+        flex-direction: row-reverse;
+        left: auto;
+        right: -18px;
+    }
+
+    .shuoshuo-feather i {
+        transform: scaleY(1);
+    }
+}
+
+/*说说模板样式-止*/
 
 .avatar {
     border-radius: 100% !important;

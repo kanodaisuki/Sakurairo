@@ -28,23 +28,72 @@ get_header();
             <ul id="main" class="cbp_tmtimeline">
                 <?php while ($shuoshuo_query->have_posts()) : $shuoshuo_query->the_post(); ?>
                     <li id="shuoshuo_post">
-                            <span class="shuoshuo_author_img">
-                                <img alt="shuoShuo author img" src="<?php echo get_avatar_profile_url(get_the_author_meta('ID')); ?>" class="avatar avatar-48" width="48" height="48">
-                            </span>
-                            <div class="cbp_tmlabel">
-                                <div class="entry-content">
-                                    <?php the_content( '', true ); ?>
+                        <div class="shuoshuo-content">
+                            <div class="shuoshuo-text">
+                                <div class="shuoshuo-title">
+                                    <?php the_title('<h2>', '</h2>') ?>
                                 </div>
-                                <div class="shuoshuo_meta">
-                                    <span class="comments-time"><i class="fa-regular fa-clock"></i><?php _e('Posted on ','sakurairo'); the_time('Y-m-d H:i');//the_time('Y/n/j G:i'); ?></span>
-                                    <span class="comments-number" title="<?php _e('view comments', 'sakurairo'); ?>">
-                                        <a href="<?php the_permalink(); ?>">
-                                            <i class="fa-regular fa-comments"></i> <?php comments_number('0', '1', '%'); ?>
-                                        </a>
-                                    </span>
+                                <div class="shuoshuo-body">
+                                    <p><?php echo strip_tags(get_the_content()) ?></p>
                                 </div>
                             </div>
-                        
+                            <div class="shuoshuo-images">
+                                <?php
+                                    preg_match_all('/<img[^>]+\/>/i', get_the_content(), $shuoshuo_images);
+                                    $shuoshuo_images_count = count($shuoshuo_images[0]);
+                                    if (!empty($shuoshuo_images_count)) {
+                                        switch($shuoshuo_images_count) {
+                                            case 1:
+                                                $image_html_list = '<span class="image-full">'.$shuoshuo_images[0][0].'</span>';
+                                                break;
+                                            case 2:
+                                                $image_html_list = '<span class="image-two">'.$shuoshuo_images[0][0].'</span>';
+                                                $image_html_list.= '<span class="image-two">'.$shuoshuo_images[0][1].'</span>';
+                                                break;
+                                            case 3:
+                                                $image_html_list = '<span class="image-three">'.$shuoshuo_images[0][0].'</span>';
+                                                $image_html_list .= '<span class="image-three">'.$shuoshuo_images[0][1].'</span>';
+                                                $image_html_list .= '<span class="image-three">'.$shuoshuo_images[0][2].'</span>';
+                                                break;
+                                            default :
+                                                $image_html_list = '<span class="image-four">'.$shuoshuo_images[0][0].'</span>';
+                                                $image_html_list .= '<span class="image-four">'.$shuoshuo_images[0][1].'</span>';
+                                                $image_html_list .= '<span class="image-four">'.$shuoshuo_images[0][2].'</span>';
+                                                $image_html_list .= '<span class="image-four">'.$shuoshuo_images[0][3].'</span>';
+                                                break;
+                                        }
+                                        
+                                    } else {
+                                        $image_html_list = '<span class="image-full"><img src="' . DEFAULT_FEATURE_IMAGE() . '"/></span>';       
+                                    }
+                                    remove_filter( 'the_content', 'wpautop' );
+                                    $image_html_list = apply_filters( 'the_content', $image_html_list );
+                                    echo $image_html_list;
+                                ?>
+                            </div>
+                        </div>
+                        <div class="shuoshuo-meta">
+                            <div class="shuoshuo-author-image">
+                                <?php echo get_avatar(get_the_author_meta('ID'), 96, '','shuoShuo author img', array()) ?>
+                            </div>
+                            <div class="shuoshuo-author-name">
+                                <?php echo get_the_author_meta( 'display_name' ) ?>
+                            </div>
+                            <div class="shuoshuo-comment-count">
+                                <i class="fa-regular fa-comments"></i> <?php comments_number('0', '1', '%') ?>
+                            </div>
+                            <div class="shuoshuo-date">
+                                <i class="fa-regular fa-clock"></i> <?php the_time('Y-m-d H:i'); ?>
+                            </div>
+                            <div class="shuoshuo-more">
+                                <a href="<?php the_permalink(); ?>">
+                                    <i class="fa-solid fa-angles-right fa-beat"></i> <?php _e('View Idea','sakurairo') ?>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="shuoshuo-feather">
+                            <i class="fa-solid fa-feather fa-flip-horizontal fa-2xl"></i>
+                        </div>
                     </li>
                 <?php endwhile; ?>
                 <?php wp_reset_postdata(); ?>
@@ -72,22 +121,5 @@ get_header();
             <?php next_posts_link('<i class="fa-solid fa-angle-right"></i>', $shuoshuo_query->max_num_pages) ?>
         </nav>
     <?php } ?>
-</div><!-- #primary -->
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', () => {
-        const timelines = document.querySelectorAll('.cbp_tmtimeline');
-        timelines.forEach(timeline => {
-            timeline.addEventListener('mouseover', event => {
-                if (event.target.matches('.cbp_tmtimeline li .shuoshuo_author_img img')) {
-                    event.target.classList.add('zhuan');
-                }
-            });
-            timeline.addEventListener('mouseout', event => {
-                if (event.target.matches('.cbp_tmtimeline li .shuoshuo_author_img img')) {
-                    event.target.classList.remove('zhuan');
-                }
-            });
-        });
-    });
-</script>
+</div>
 <?php get_footer(); ?>
