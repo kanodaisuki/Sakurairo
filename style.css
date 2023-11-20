@@ -4974,7 +4974,6 @@ input#wp-comment-cookies-consent {
 .shuoshuo-author-image img {
     height: 100%;
     width: auto;
-    border-radius: 50%;
 }
 
 .shuoshuo-feather {
@@ -4998,6 +4997,10 @@ input#wp-comment-cookies-consent {
 #shuoshuo_post:nth-child(even) .shuoshuo-feather i {
     transform: scaleY(1);
     color: var(--shuoshuo_background_color2)
+}
+
+body.dark #shuoshuo_post {
+    color: #505050;
 }
 
 @media (max-width: 700px) {
