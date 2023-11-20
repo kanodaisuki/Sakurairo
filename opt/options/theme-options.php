@@ -2842,15 +2842,7 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
         'title' => __('Ideas Template Background Color II','sakurairo_csf'),
         'desc' => __('Customize the colors','sakurairo_csf'),
         'default' => '#FCCD00'
-      ),    
-
-      array(
-        'id' => 'shuoshuo_arrow',
-        'type' => 'switcher',
-        'title' => __('Ideas Template Tip Arrow','sakurairo_csf'),
-        'label' => __('After turning on the alert arrow will appear on the left side of the comment','sakurairo_csf'),
-        'default' => false
-      ),
+      ), 
 
       array(
         'id' => 'shuoshuo_font',
