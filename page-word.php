@@ -64,7 +64,7 @@ get_header();
                                         }
                                         
                                     } else {
-                                        $image_html_list = '<span class="image-full"><img src="' . DEFAULT_FEATURE_IMAGE() . '"/></span>';       
+                                        $image_html_list = '<span class="image-full"><img alt="shuoshuo image" src="' . DEFAULT_FEATURE_IMAGE() . '"/></span>';       
                                     }
                                     remove_filter( 'the_content', 'wpautop' );
                                     $image_html_list = apply_filters( 'the_content', $image_html_list );

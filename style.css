@@ -4812,8 +4812,8 @@ input#wp-comment-cookies-consent {
     font-size: 1rem;
     line-height: 2rem;
     text-align: center;
-    margin-bottom: 12px;
-    overflow: auto;
+    max-height: 150px;
+    overflow: hidden;
 }
 
 .shuoshuo-title h2 {
