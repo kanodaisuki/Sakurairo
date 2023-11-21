@@ -39,32 +39,16 @@ get_header();
                             </div>
                             <div class="shuoshuo-images">
                                 <?php
+                                    $image_html_list = '';
                                     preg_match_all('/<img[^>]+\/>/i', get_the_content(), $shuoshuo_images);
                                     $shuoshuo_images_count = count($shuoshuo_images[0]);
+                                    $shuoshuo_images_count = $shuoshuo_images_count>4 ? 4 : $shuoshuo_images_count;                                   
                                     if (!empty($shuoshuo_images_count)) {
-                                        switch($shuoshuo_images_count) {
-                                            case 1:
-                                                $image_html_list = '<span class="image-full">'.$shuoshuo_images[0][0].'</span>';
-                                                break;
-                                            case 2:
-                                                $image_html_list = '<span class="image-two">'.$shuoshuo_images[0][0].'</span>';
-                                                $image_html_list.= '<span class="image-two">'.$shuoshuo_images[0][1].'</span>';
-                                                break;
-                                            case 3:
-                                                $image_html_list = '<span class="image-three">'.$shuoshuo_images[0][0].'</span>';
-                                                $image_html_list .= '<span class="image-three">'.$shuoshuo_images[0][1].'</span>';
-                                                $image_html_list .= '<span class="image-three">'.$shuoshuo_images[0][2].'</span>';
-                                                break;
-                                            default :
-                                                $image_html_list = '<span class="image-four">'.$shuoshuo_images[0][0].'</span>';
-                                                $image_html_list .= '<span class="image-four">'.$shuoshuo_images[0][1].'</span>';
-                                                $image_html_list .= '<span class="image-four">'.$shuoshuo_images[0][2].'</span>';
-                                                $image_html_list .= '<span class="image-four">'.$shuoshuo_images[0][3].'</span>';
-                                                break;
-                                        }
-                                        
+                                        for ($i=0; $i<$shuoshuo_images_count; $i++) {
+                                            $image_html_list .= '<span class="image-'.$shuoshuo_images_count.'">'.$shuoshuo_images[0][$i].'</span>';
+                                        }                                      
                                     } else {
-                                        $image_html_list = '<span class="image-full"><img alt="shuoshuo image" src="' . DEFAULT_FEATURE_IMAGE() . '"/></span>';       
+                                        $image_html_list .= '<span class="image-1"><img alt="shuoshuo image" src="' . DEFAULT_FEATURE_IMAGE() . '"/></span>';       
                                     }
                                     remove_filter( 'the_content', 'wpautop' );
                                     $image_html_list = apply_filters( 'the_content', $image_html_list );
