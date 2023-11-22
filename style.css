@@ -4768,7 +4768,6 @@ input#wp-comment-cookies-consent {
 
 #shuoshuo_post:hover {
     box-shadow: 0 0 20px 2px var(--shuoshuo_background_color2);
-    transition: all 0.5s ease-in-out;
 }
 
 #shuoshuo_post:nth-child(even) {
@@ -4780,7 +4779,6 @@ input#wp-comment-cookies-consent {
 
 #shuoshuo_post:nth-child(even):hover {
     box-shadow: 0 0 20px 2px var(--shuoshuo_background_color1);
-    transition: all 0.5s ease-in-out;
 }
 
 .shuoshuo-content {
@@ -4881,7 +4879,6 @@ input#wp-comment-cookies-consent {
 
 .shuoshuo-images img:hover {
     transform: scale(1.1);
-    transition: all 0.3s ease-in-out;
 }
 
 .shuoshuo-images .image-1 {
@@ -4951,6 +4948,12 @@ input#wp-comment-cookies-consent {
     justify-content: right;
     font-size: 12px;
     padding: 0 0 0 30px;
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+}
+
+.shuoshuo-meta:hover {
+    opacity: 1;
 }
 
 #shuoshuo_post:nth-child(even) .shuoshuo-meta {
