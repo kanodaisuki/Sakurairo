@@ -48,7 +48,14 @@ get_header();
                                             $image_html_list .= '<span class="image-'.$shuoshuo_images_count.'">'.$shuoshuo_images[0][$i].'</span>';
                                         }                                      
                                     } else {
-                                        $image_html_list .= '<span class="image-1"><img alt="shuoshuo image" src="' . DEFAULT_FEATURE_IMAGE() . '"/></span>';       
+                                        $shuoshuo_image_url = iro_opt('shuoshuo_default_img');
+                                        if ($shuoshuo_image_url) {
+                                            $url_query = strpos($shuoshuo_image_url, '?') !== false ? '&' : '?';
+                                            $shuoshuo_image_url .= $url_query . rand(0, 100);
+                                        } else {
+                                            $shuoshuo_image_url = DEFAULT_FEATURE_IMAGE();
+                                        }
+                                        $image_html_list .= '<span class="image-1"><img alt="shuoshuo image" src="'.$shuoshuo_image_url.'"/></span>';
                                     }
                                     remove_filter( 'the_content', 'wpautop' );
                                     $image_html_list = apply_filters( 'the_content', $image_html_list );

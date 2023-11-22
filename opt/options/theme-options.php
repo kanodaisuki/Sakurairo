@@ -2861,6 +2861,14 @@ if( class_exists( 'Sakurairo_CSF' ) ) {
       ),
 
       array(
+        'id' => 'shuoshuo_default_img',
+        'type' => 'text',
+        'title' => __('ShuoShuo Default Image','sakurairo_csf'),
+        'desc' => __('The default image displayed when a ShuoShuo is missing an image. Fill in the URL link, leaving it blank will use the image from the same source as "Cover Random Image".','sakurairo_csf'),
+        'default' => ''
+      ),
+
+      array(
         'type' => 'subheading',
         'content' => __('Bangumi Template Settings','sakurairo_csf'),
       ),
