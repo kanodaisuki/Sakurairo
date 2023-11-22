@@ -34,7 +34,7 @@ get_header();
                                     <?php the_title('<h2>', '</h2>') ?>
                                 </div>
                                 <div class="shuoshuo-body">
-                                    <p><?php echo strip_tags(get_the_content()) ?></p>
+                                    <?php echo wpautop(strip_tags(get_the_content())) ?>
                                 </div>
                             </div>
                             <div class="shuoshuo-images">
