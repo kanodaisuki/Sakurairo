@@ -34,18 +34,25 @@ get_header();
                                     <?php the_title('<h2>', '</h2>') ?>
                                 </div>
                                 <div class="shuoshuo-body">
-                                    <?php echo wpautop(strip_tags(get_the_content())) ?>
+                                    <?php 
+                                        $shuoshuo_content = get_the_content();
+                                        echo wpautop(strip_tags($shuoshuo_content));                                
+                                    ?>
                                 </div>
                             </div>
                             <div class="shuoshuo-images">
                                 <?php
                                     $image_html_list = '';
-                                    preg_match_all('/<img[^>]+\/>/i', get_the_content(), $shuoshuo_images);
-                                    $shuoshuo_images_count = count($shuoshuo_images[0]);
-                                    $shuoshuo_images_count = $shuoshuo_images_count>4 ? 4 : $shuoshuo_images_count;                                   
-                                    if (!empty($shuoshuo_images_count)) {
+                                    $shuoshuo_images_count = 0;
+                                    if (!empty($shuoshuo_content)) {
+                                        $shuoshuo_dom = new DOMDocument;
+                                        $shuoshuo_dom->loadHTML($shuoshuo_content);
+                                        $shuoshuo_images = $shuoshuo_dom->getElementsByTagName('img');
+                                        $shuoshuo_images_count = min(count($shuoshuo_images), 4);
+                                    }
+                                    if ($shuoshuo_images_count > 0) {
                                         for ($i=0; $i<$shuoshuo_images_count; $i++) {
-                                            $image_html_list .= '<span class="image-'.$shuoshuo_images_count.'">'.$shuoshuo_images[0][$i].'</span>';
+                                            $image_html_list .= '<span class="image-'.$shuoshuo_images_count.'"><img src="'.$shuoshuo_images[$i]->getAttribute('src').'" alt="'. $shuoshuo_images[$i]->getAttribute('alt').'" title="'.$shuoshuo_images[$i]->getAttribute('title').'" /></span>';
                                         }                                      
                                     } else {
                                         $shuoshuo_image_url = iro_opt('shuoshuo_default_img');
@@ -55,7 +62,7 @@ get_header();
                                         } else {
                                             $shuoshuo_image_url = DEFAULT_FEATURE_IMAGE();
                                         }
-                                        $image_html_list .= '<span class="image-1"><img alt="shuoshuo image" src="'.$shuoshuo_image_url.'"/></span>';
+                                        $image_html_list .= '<span class="image-1"><img src="'.$shuoshuo_image_url.'" alt="shuoshuo image" title="'.get_the_title().'" /></span>';
                                     }
                                     remove_filter( 'the_content', 'wpautop' );
                                     $image_html_list = apply_filters( 'the_content', $image_html_list );
